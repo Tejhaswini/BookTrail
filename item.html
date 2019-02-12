@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <title>My book website</title>
+	<meta charset="UTF-8">
+	<link  rel = "stylesheet" href="StyleSheet.css" type = "text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>	
+	<header>
+        <h5 id="topCorner">Not Signed In</h5>
+        <img src="images/first.png" alt="Trade Land" class="imgCenter">
+	</header>
+	
+	<nav class = "navBar">
+            <ul>
+                <li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>SignIn</a></li>
+                <li><a href="myItems.html"><i class="fa fa-book" aria-hidden="true"></i>MyBooks</a></li>
+                <li><a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Cart</a></li>	
+            </ul>
+    </nav>
+	
+    <aside class = "verticalBar">
+            <ul>
+				<li><a href="index.html">Home</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="#Store">Store</a></li>
+                <li><a href="#About">About</a></li>
+                <li><a href="#ContactUs">Contact Us</a></li>
+            </ul>
+    </aside>
+	
+	<main class = "horizontalBar">
+	        <div class ="navigationLink">
+			<a href ="index.html">Home</a>><a href = "Categories.html">Categories</a>><a href ="item.html">Item</a>
+			</div>
+			<section>
+			<img src="images/Science.jpg" alt ="Stephen Hawking" class ="productImage">
+			<h3>Stephen Hawking : A Life in Science</h3>
+			<p>Category : Sci-Fi& Fantasy</p>
+			<p>Rating:
+			<span class="fa fa-star checked"></span>
+			<span class="fa fa-star checked"></span>
+			<span class="fa fa-star checked"></span>
+			<span class="fa fa-star checked"></span>
+			<span class="fa fa-star"></span></p>
+			<p>Stephen Hawking is no ordinary scientist. He has broadened our basic understanding of
+			the universe and his theoretical work on black holes.
+			In Stephen Hawking, science writers White and Gribbin have painted a compelling portrait 
+			of a scientific mind that seemingly knows no bounds. Weaving together clear explanations of 
+			Hawking’s science with a detailed, balanced, and sensitive personal history, readers will come 
+			to know and appreciate both sides of this incredible man.</p>
+			</section>
+			<div class ="alignButton">
+			<button  class="button" onclick ="location.href ='myItems.html'"><i class="fa fa-heart clrHeart" aria-hidden="true"></i>SaveIt</button>
+			<button class="button" onclick ="location.href ='myItems.html'"><i class="fa fa-star clrRate" aria-hidden="true"></i>RateIt</button>
+			</div>
+	</main>
+		
+	
+	<footer class ="bottom">
+	 <p>© Copyright bookland all rights reserved.</p>
+	</footer>
+	
+</body>
+</html>
