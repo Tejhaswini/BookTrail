@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <title><%= title.title %></title>
+	<meta charset="UTF-8">
+	<link  rel = "stylesheet" href="./assets/css/StyleSheet.css" type = "text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<%if(title.theUser)
+	{%>
+	<%include partials/header1.ejs%>
+	<%include partials/user-navigation1.ejs%>
+  <%}
+	else
+	{%>
+	<%include partials/header.ejs%>
+	<%include partials/user-navigation.ejs%>
+	<%}%>
+	<%include partials/site-navigation.ejs%>
+
+	<main class = "horizontalBar">
+	    <h4>The detailed list of your saved books and reviews</h4>
+		<table class ="catalogBar">
+			<tbody>
+					<tr>
+					  <th>Book</th>
+						<th>Category</th>
+						<th>My Rating</th>
+						<th>Read It</th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+       <%for(var i=0;i<title.userItemData.length;i++){%>
+					<tr>
+						<td><a href = '/categories/item/<%= title.userItemData[i]._item%>'><%=title.userItemData[i]._category%></a></td>
+						<td><%=title.userItemData[i]._catalogCategory%></td>
+						<td>
+						<% var j= title.userItemData[i]._rating;%>
+							<% for(var m=0;m<5;m++){
+								if(j>0){%>
+									<span class="fa fa-star checked"></span>
+								<%j--;
+								}
+								else{ %>
+									<span class="fa fa-star"></span>
+						<%	}
+							 } %>
+						</td>
+						<%var checkStatus = title.userItemData[i]._readIt;%>
+				 						<% if(checkStatus == 1){%>
+				 						<td class ="alignIcon"><i class="fa fa-check-square checkBtn"></i></td>
+				 					  <%}
+				 						else{%>
+				 						<td class = "alignIcon"><i class="fa fa-stop-circle checkRedBtn"></i></td>
+				 					<%}%>
+             <td><a class = "button" href='/feedback/<%=title.userItemData[i]._item%>'>Update</a></td>
+						<td>
+							<form action ="/delete" method = "POST">
+							<input type="hidden" name="itemCode" value="<%=title.userItemData[i]._item%>"/>
+							<button type ="submit" class = "button" name ="action" value ="Delete">Delete</button>
+						</form>
+						</td>
+					</tr>
+				<%}%>
+			</tbody>
+		</table>
+			<p class = "shareReviews"> Click <a href="#inactive" class ="linkHighlight"> here </a> to <b>add/update/share</b>books.</p>
+	</main>
+<%include partials/footer.ejs%>
+</body>
+</html>

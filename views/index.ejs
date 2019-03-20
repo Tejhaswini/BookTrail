@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%=title.title%></title>
+	<meta charset="UTF-8">
+    <link rel="stylesheet" href="../assets/css/StyleSheet.css" type="text/css">
+	<!-- Font Awesome Icon Library -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <%if(title.theUser)
+	{%>
+	<%include partials/header1.ejs%>
+	<%include partials/user-navigation1.ejs%>
+  <%}
+	else
+	{%>
+	<%include partials/header.ejs%>
+	<%include partials/user-navigation.ejs%>
+	<%}%>
+	<%include partials/site-navigation.ejs%>
+	<main class ="horizontalBar">
+	       <article>
+			   <h4>Welcome to Bookstagram site!</h4>
+			   <p>We have an vast collection of books for readers of all ages and tastes.New books are added daily, keeping the assortment fresh.</p>
+			   <p>Check via the categories on the left hand side for variety of collection of sets , book reviews and author insights etc.</p>
+			  </article>
+  </main>
+ <%include partials/footer.ejs%>
+</body>
+</html>

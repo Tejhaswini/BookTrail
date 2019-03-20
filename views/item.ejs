@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <title><%=data.title%></title>
+	<meta charset="UTF-8">
+	<link  rel = "stylesheet" href="../../assets/css/StyleSheet.css" type = "text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<%if(data.theUser)
+	{%>
+	<%include partials/header1.ejs%>
+	<%include partials/user-navigation1.ejs%>
+	<%}
+	else
+	{%>
+	<%include partials/header.ejs%>
+	<%include partials/user-navigation.ejs%>
+	<%}%>
+	<%include partials/site-navigation.ejs%>
+	<main class = "horizontalBar" method = "POST">
+	    <div class ="navigationLink">
+			<a href ="/index">Home</a> > <a href = "/categories">Categories</a> > <span>Item</span>
+			</div>
+			<div class ="categoriesLink">
+			<a href =  "/categories" class = "categoriesBtn"><i class="fa fa-chevron-left clrLeft" aria-hidden="true"></i>Return to Category</a>
+			</div>
+			<section>
+			<img src = '<%=data.item.imageURL%>' alt ="Stephen Hawking" class ="productImage">
+			<h3><%=data.item.itemName%></h3>
+			<p>Category :<%=data.item.catalogCategory%></p>
+      <%var j= data.item.rating;%>
+				<%for(var i=0;i<5;i++){
+					if(j>0){ %>
+						<span class="fa fa-star checked"></span>
+					<%j--;
+					console.log(j);
+					}
+					else{ %>
+						<span class="fa fa-star"></span>
+			<%		}
+				 } %>
+			<p><%=data.item.description%></p>
+			</section>
+			<div class ="alignButton">
+				<form action = "/save" method = "POST">
+				<input type="hidden" name = "itemCode" value ="<%=data.item._itemCode%>"/>
+				<button type ="submit" class = "button" name ="action" value ="save"><i class="fa fa-heart clrHeart"></i>SaveIt</button>
+				<a class = "button" href ='/feedback/<%=data.item.itemCode%>'><i class="fa fa-star clrRate" aria-hidden="true"></i>RateIt</a>
+				</form>
+			</div>
+	</main>
+<%include partials/footer.ejs%>
+</body>
+</html>

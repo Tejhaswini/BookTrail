@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <title><%=data.title%></title>
+	<meta charset="UTF-8">
+	<link  rel = "stylesheet" href= "../../assets/css/StyleSheet.css" type = "text/css">
+	<!-- Font Awesome Icon Library -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+	<%if(data.theUser)
+	{%>
+	<%include partials/header1.ejs%>
+	<%include partials/user-navigation1.ejs%>
+	<%}
+	else
+	{%>
+	<%include partials/header.ejs%>
+	<%include partials/user-navigation.ejs%>
+	<%}%>
+	<%include partials/site-navigation.ejs%>
+    <main class = "horizontalBar">
+	      <div class = "navigationLink">
+			  <a href ="/index">Home</a> > <span>Categories</span>
+			 </div>
+        <section class ="tradingBar">
+        <%
+        console.log("Categories:"+data.categories);
+        for(var i=0; i< data.categories.length; i++){ %>
+        <h4 class ="heading"><%=data.categories[i]%></h4>
+        <ul class = "categories">
+        <%
+        for(var j=0; j< data.items.length;j++){
+        if(data.categories[i] === data.items[j].catalogCategory){ %>
+          <li><a href="/categories/item/<%= data.items[j].itemCode%>"><%= data.items[j].itemName%></a></li>
+          <% }
+          }
+        %>
+        </ul>
+        <% }%>
+       </section>
+	   </main>
+	<%include partials/footer.ejs%>
+</body>
+</html>

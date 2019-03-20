@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= title.title %></title>
+	<meta charset="UTF-8">
+	<link  rel = "stylesheet" href= "../assets/css/StyleSheet.css" type = "text/css">
+	<!-- Font Awesome Icon Library -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<%if(title.theUser)
+ {%>
+ <%include partials/header1.ejs%>
+ <%include partials/user-navigation1.ejs%>
+	<%}
+ else
+ {%>
+ <%include partials/header.ejs%>
+ <%include partials/user-navigation.ejs%>
+ <%}%>
+ <%include partials/site-navigation.ejs%>
+   <main class = "horizontalBar">
+		 <div class ="navigationLink">
+		 <a href ="/index">Home</a> > <a href = "/categories">Categories</a> ><span>Item</span>
+		 </div>
+		 <section>
+		 <h3>Give your feedback for</h3>
+		 <img src = '<%=title.item.imageURL%>' alt ="Stephen Hawking" class ="productImage">
+		 <h3><%=title.item.itemName%></h3>
+		 <p><%=title.item.catalogCategory%></p>
+		 <p><%=title.item.description%></p>
+		 <form action ="/rateit" method = "POST">
+		 <p><b>Rating :</b>
+		 <select class = "rtgDrp" name = "itemRating">
+		 <option value ="<%=title.rating%>" selected ><%=title.rating%></option>
+     <option value="1">1</option>
+     <option value="2">2</option>
+     <option value="3">3</option>
+     <option value="4">4</option>
+		 <option value="5">5</option>
+	   </select>
+			<input type="hidden" name= "itemCode" value="<%=title.item._itemCode%>"/>
+			<button type ="submit" class = "button" name ="action" value ="rateit">Confirm Rating</button>
+		  <div>
+			<label><b>Read It</b></label>
+			<%if(title.readIt==1){%>
+			<input type = "radio" name = "readIt" value = "1" checked/>Yes
+			<input type = "radio" name = "readIt" value = "0"/>No
+	   <%}
+	 	else
+		 {%>
+			<input type = "radio" name = "readIt" value = "1" />Yes
+			<input type = "radio" name = "readIt" value = "0" checked/>No
+	  <%}%>
+	   </div>
+		</form>
+		 </section>
+   </main>
+   <%include partials/footer.ejs%>
+ </body>
+ </html>

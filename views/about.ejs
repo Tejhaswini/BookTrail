@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <title><%= title.title %></title>
+	<meta charset="UTF-8">
+	<link  rel = "stylesheet" href= "./assets/css/StyleSheet.css" type = "text/css">
+	<!-- Font Awesome Icon Library -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<%if(title.theUser)
+	{%>
+	<%include partials/header1.ejs%>
+	<%include partials/user-navigation1.ejs%>
+  <%}
+	else
+	{%>
+	<%include partials/header.ejs%>
+	<%include partials/user-navigation.ejs%>
+	<%}%>
+	<%include partials/site-navigation.ejs%>
+	 <main class ="horizontalBar">
+					<article>
+					<h4>About US</h4>
+					<p>At Bookstagram we believe that there is something undeniably special about reading. And we don’t just love to read books.</p>
+          <p>We love to talk about them...</p>
+					<p>This is the platform to share , update reviews on books and have a access to a variety of collection in store.</p>
+				 </article>
+	 </main>
+	<%include partials/footer.ejs%>
+ </body>
+ </html>
