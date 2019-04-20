@@ -1,80 +1,105 @@
 var express = require('express');
 var router = express.Router();
+
 var itemDb = require('../utility/itemDB');
+var userItemDb = require('../utility/userItemDB');
 var userDb = require('../utility/userDB');
-var UsersItem = require('../models/userItem');
-var UsersProfile = require('../models/userProfile');
+var usersItem = require('../models/userItem');
 
 var bodyParser = require('body-parser');
 var session = require('express-session');
+
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
-router.get('/feedback/:itemCode',function(req,res){
-  if(req.session.theUser!=undefined||req.session.theUser!=null)
-  {
+
+router.get('/feedback/:itemCode', async function(req,res){
+  let userItemData = new userItemDb();
+  let itemDt = new itemDb();
   var itemCode = req.params.itemCode;
-  console.log("The value of item code is"+itemCode);
-  var items = req.session.userProfile;
-  var readIt,rating;
-  for(var i=0;i<items.length;i++)
+  var item = await itemDt.getItem(itemCode);
+  if(req.session.theUser)
   {
-    if(itemCode==items[i]._item)
+  var items = await userItemData.getUserItemCode(itemCode);
+  var readIt,rating = 0;
+    if(items!=null || items!=undefined)
     {
-      readIt = items[i]._readIt;
-      rating = items[i]._rating;
+     var readIt = items.readIt;
+     var rating = items.rating;
     }
+    else
+  {
+    var flag = 1;
   }
-  var item = itemDb.getItem(itemCode);
-  var page = {
-      title:'Store',
-      theUser : req.session.theUser,
-      item : item,
-      readIt : readIt,
-      rating : rating
-             }
-res.render('feedback', {title: page});
 }
-else
- {
-  var categories = getCategories();
-  var itemData = itemDb.getItems();
-  var data = {
-        title:'Categories',
-        categories: categories,
-        items: itemData,
-        theUser : req.session.theUser
-             }
+
+if(items===undefined || req.session.theUser === undefined || req.session.theUser === null || flag === 1)
+  {
+    let itemDt = new itemDb();
+    var itemData = await itemDt.getAllItems();
+    var categories = await itemDt.getCategories();
+    var data = {
+          title:'Categories',
+          categories: categories,
+          items: itemData,
+          theUser : req.session.theUser
+               }
   res.render('categories',{data:data});
-  }
+    }
+else
+{
+let itemDt = new itemDb();
+var item = await itemDt.getItem(itemCode);
+var page = {
+    title:'Store',
+    theUser : req.session.theUser,
+    item : item,
+    readIt : readIt,
+    rating : rating
+           }
+res.render('feedback',{title: page});
+}
 });
 
-router.get('/myItems',function(req,res){
-   //var user = userDb.userProfile;
-   //var userItemData = UsersProfile.getItems();
-   var user = userDb.userProfile;
-   var userItemData = user.userItems;
-    if(req.session.theUser)
+router.get('/myItems', async function(req,res){
+   
+  let userDt = new userDb();
+  let itemDt = new itemDb();
+  let userItemDt = new userItemDb();
+  var user = await userDt.getUser(101);
+  var itemData =  await userItemDt.getUserItems();
+  var items = await itemDt.getAllItems();
+  var itemName =[];
+  var catalogCategory = [];
+  for(var i=0;i<items.length;i++)
+      {
+        itemValue = await itemDt.getItem(items[i].itemCode);
+        itemName[i] = itemValue.itemName;
+        catalogCategory[i] = itemValue.catalogCategory;
+      }
+  if(req.session.theUser)
     {
       var page = {
           title:'MyItems',
           theUser : req.session.theUser,
-          userItemData : req.session.userProfile
+          item : itemData,
+          catalogCategory : catalogCategory,
+          itemName : itemName
       }
-        console.log("The session is generated");
-        res.render('myItems', {title:page});
+        res.render('myItems',{title:page});
     }
     else {
       req.session.theUser = user;
-      req.session.userProfile = userItemData;
-      console.log(req.session.userProfile);
+      req.session.userProfile = itemData;
       var page = {
           title:'MyItems',
           theUser : req.session.theUser,
-          userItemData : userItemData
-    }
+          userItemData : user,
+          item : itemData ,
+          catalogCategory : catalogCategory,
+          itemName : itemName
+                 }
       res.render('myItems', {title:page});
-      console.log("The session is not generated");
-    }
+        }
 });
 
 router.get('/signout',function(req,res){
@@ -85,44 +110,62 @@ router.get('/signout',function(req,res){
         res.render('index',{title:page});
     });
 });
-
-
-router.post('/delete',urlencodedParser,function(req,res)
+router.post('/delete',urlencodedParser,async function(req,res)
 {
     var itemCode = req.body.itemCode;
-    console.log("Check the itemCode of deleted item");
-    console.log(itemCode);
     var removedData;
-    removedData = UsersProfile.removeItem(req.session.userProfile,itemCode);
-    console.log("The removed Data");
-    console.log(removedData);
+    let userData = new userItemDb();
+    let itemDt = new itemDb();
+    removedData = await userData.removeItem(itemCode);
     req.session.userProfile = removedData;
+    var itemName = [];
+    var catalogCategory = [];
+    for(var i =0;i< removedData.length;i++)
+    {
+      itemData = await itemDt.getItem(removedData[i].item);
+      itemName[i] = itemData.itemName;
+      catalogCategory[i] = itemData.itemName;
+    }
     var page = {
       title :'Delete',
       theUser : req.session.theUser,
-      userItemData : req.session.userProfile
+      item : req.session.userProfile,
+      itemName : itemName,
+      catalogCategory : catalogCategory
     }
     res.render('myItems', {title:page});
   });
 
-  router.post('/save',urlencodedParser,function(req,res)
+  router.post('/save',urlencodedParser, async function(req,res)
   {
       if(req.session.theUser!=undefined)
       {
       var itemCode = req.body.itemCode;
-      var addData;
-      addData = UsersProfile.addItem(req.session.userProfile,itemCode);
+      let userItemDt = new userItemDb();
+      var addData =  await userItemDt.addItem(itemCode);
       req.session.userProfile = addData;
+      var itemDt = new itemDb();
+      var itemName =[];
+      var catalogCategory = [];
+      for(var i =0;i< addData.length;i++)
+      {
+        itemData = await itemDt.getItem(addData[i].item);
+        itemName[i] = itemData.itemName;
+        catalogCategory[i] = itemData.itemName;
+      }
       var page = {
-        title :'Save',
+        title : 'Save',
         theUser : req.session.theUser,
-        userItemData : req.session.userProfile
+        item : req.session.userProfile,
+        itemName : itemName,
+        catalogCategory : catalogCategory
       }
       res.render('myItems', {title:page});
     }
      else {
-      var categories = getCategories();
-      var itemData = itemDb.getItems();
+      let itemDt = new itemDb();
+      var categories = await itemDt.getCategories();
+      var itemData = await itemDt.getAllItems();
       var data = {
             title:'Categories',
             categories: categories,
@@ -133,31 +176,32 @@ router.post('/delete',urlencodedParser,function(req,res)
     }
     });
 
-router.post('/rateit',urlencodedParser,function(req,res)
+router.post('/rateit',urlencodedParser, async function(req,res)
 {
   var itemCode = req.body.itemCode;
   var userRating = req.body.itemRating;
   var userReadIt = req.body.readIt;
-  rateVale = UsersProfile.updateItem(req.session.userProfile,itemCode,userRating,userReadIt);
-  req.session.userProfile = rateVale;
+  var userId = req.body.userId;
+  let rateDt = new userItemDb();
+  var rateVale = await rateDt.updateItem(itemCode,userId,userRating,userReadIt);
+  req.session.userProfile = rateVale; 
+  var itemDt = new itemDb();
+  var itemName = [];
+  var catalogCategory = [];
+      for(var i =0;i<rateVale.length;i++)
+      {
+        itemData = await itemDt.getItem(rateVale[i].item);
+        itemName[i] = itemData.itemName;
+        catalogCategory[i] = itemData.itemName;
+      }
   var page = {
     title: 'rate',
     theUser : req.session.theUser,
-    userItemData : req.session.userProfile
+    item : req.session.userProfile,
+    itemName : itemName ,
+    catalogCategory : catalogCategory
   }
   res.render('myItems',{title:page});
 });
 
-var categories = [];
-let getCategories = function() {
-    // get the category of each item
-    var data = itemDb.getItems();
-    data.forEach(function(item) {
-        if(!categories.includes(item.catalogCategory))
-        {
-            categories.push(item.catalogCategory);
-        }
-    });
-    return categories;
-};
 module.exports = router;

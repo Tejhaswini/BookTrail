@@ -139,7 +139,8 @@ header {
   display: inline-block;
   font-size: 16px;
   margin: 4px;
-  cursor: pointer;
+	cursor: pointer;
+	display:inline-block;
 }
 .rtgDrp
 {
@@ -151,7 +152,7 @@ width :8%;
 }
 table {
    border-collapse: collapse;
-   width: 70%
+   width: 80%;
 }
 td, th {
   padding: 7px;
@@ -163,7 +164,9 @@ td, th {
 	padding-left:5px;
 }
 .alignButton {
-	margin-left:20px;
+	margin-left:10px;
+	display: inline-block;
+	position: absolute;
 }
 .shareReviews {
    margin-top : 90px;
@@ -224,10 +227,6 @@ td, th {
 .catLink{
 	text-decoration : none;
 	color:white;
-}
-.contact tr td
-{
-
 }
 .contact {
 	 border-collapse: collapse;

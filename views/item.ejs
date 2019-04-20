@@ -27,7 +27,7 @@
 			<a href =  "/categories" class = "categoriesBtn"><i class="fa fa-chevron-left clrLeft" aria-hidden="true"></i>Return to Category</a>
 			</div>
 			<section>
-			<img src = '<%=data.item.imageURL%>' alt ="Stephen Hawking" class ="productImage">
+			<img src = "/assets/images/<%= data.item.itemCode %>.jpg" alt ="Stephen Hawking" class ="productImage">
 			<h3><%=data.item.itemName%></h3>
 			<p>Category :<%=data.item.catalogCategory%></p>
       <%var j= data.item.rating;%>
@@ -44,12 +44,16 @@
 			<p><%=data.item.description%></p>
 			</section>
 			<div class ="alignButton">
-				<form action = "/save" method = "POST">
-				<input type="hidden" name = "itemCode" value ="<%=data.item._itemCode%>"/>
-				<button type ="submit" class = "button" name ="action" value ="save"><i class="fa fa-heart clrHeart"></i>SaveIt</button>
-				<a class = "button" href ='/feedback/<%=data.item.itemCode%>'><i class="fa fa-star clrRate" aria-hidden="true"></i>RateIt</a>
-				</form>
-			</div>
+				<%if(data.userCode ==  0)
+				{%>
+					<form action = "/save" method = "POST">
+						<input type = "hidden" name = "itemCode" value ="<%=data.item.itemCode%>"/>
+						<input type = "hidden" name = "userId" value ="<%=data.item.userID%>"/>
+					 <button type ="submit" class = "button" name ="action" value ="save"><i class="fa fa-heart clrHeart"></i>SaveIt</button>
+			<%}%>
+			<a class = "button" href ='/feedback/<%=data.item.itemCode%>'><i class="fa fa-star clrRate" aria-hidden="true"></i>RateIt</a>	
+		</div>
+	</form>
 	</main>
 <%include partials/footer.ejs%>
 </body>

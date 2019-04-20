@@ -33,12 +33,12 @@
 						<th></th>
 						<th></th>
 					</tr>
-       <%for(var i=0;i<title.userItemData.length;i++){%>
+       <%for(var i=0;i<title.item.length;i++){%>
 					<tr>
-						<td><a href = '/categories/item/<%= title.userItemData[i]._item%>'><%=title.userItemData[i]._category%></a></td>
-						<td><%=title.userItemData[i]._catalogCategory%></td>
+						<td><a href = '/categories/item/<%= title.item[i].item%>'><%=title.itemName[i]%></a></td>
+						<td><%=title.catalogCategory[i]%></td>
 						<td>
-						<% var j= title.userItemData[i]._rating;%>
+						<% var j= title.item[i].rating;%>
 							<% for(var m=0;m<5;m++){
 								if(j>0){%>
 									<span class="fa fa-star checked"></span>
@@ -49,17 +49,17 @@
 						<%	}
 							 } %>
 						</td>
-						<%var checkStatus = title.userItemData[i]._readIt;%>
+						<%var checkStatus = title.item[i].readIt;%>
 				 						<% if(checkStatus == 1){%>
 				 						<td class ="alignIcon"><i class="fa fa-check-square checkBtn"></i></td>
 				 					  <%}
 				 						else{%>
 				 						<td class = "alignIcon"><i class="fa fa-stop-circle checkRedBtn"></i></td>
 				 					<%}%>
-             <td><a class = "button" href='/feedback/<%=title.userItemData[i]._item%>'>Update</a></td>
+             <td><a class = "button" href='/feedback/<%=title.item[i].item%>'>Update</a></td>
 						<td>
 							<form action ="/delete" method = "POST">
-							<input type="hidden" name="itemCode" value="<%=title.userItemData[i]._item%>"/>
+							<input type="hidden" name="itemCode" value="<%=title.item[i].item%>"/>
 							<button type ="submit" class = "button" name ="action" value ="Delete">Delete</button>
 						</form>
 						</td>

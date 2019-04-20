@@ -26,7 +26,7 @@
 		 </div>
 		 <section>
 		 <h3>Give your feedback for</h3>
-		 <img src = '<%=title.item.imageURL%>' alt ="Stephen Hawking" class ="productImage">
+		 <img src = "/assets/images/<%= title.item.itemCode %>.jpg" alt ="Stephen Hawking" class ="productImage">
 		 <h3><%=title.item.itemName%></h3>
 		 <p><%=title.item.catalogCategory%></p>
 		 <p><%=title.item.description%></p>
@@ -40,7 +40,7 @@
      <option value="4">4</option>
 		 <option value="5">5</option>
 	   </select>
-			<input type="hidden" name= "itemCode" value="<%=title.item._itemCode%>"/>
+			<input type="hidden" name= "itemCode" value = "<%=title.item.itemCode%>"/>
 			<button type ="submit" class = "button" name ="action" value ="rateit">Confirm Rating</button>
 		  <div>
 			<label><b>Read It</b></label>

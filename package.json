@@ -1,0 +1,21 @@
+{
+    "name": "hw2",
+    "version": "1.0.0",
+    "description": "MVC assignment",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Tejaswini Atluri",
+    "license": "ISC",
+    "dependencies": {
+      "cookie-parser": "^1.4.4",
+      "ejs": "^2.6.1",
+      "express": "^4.16.4",
+      "express-session": "^1.15.6",
+      "jsdom": "^14.0.0",
+      "mongoose": "^5.4.20",
+      "popups": "^1.1.3"
+    }
+  }
+  
